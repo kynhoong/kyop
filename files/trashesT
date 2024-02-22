@@ -1,0 +1,20 @@
+RunService = game:GetService("RunService")
+PlayerService = game:GetService("Players")
+
+ControlModule = loadstring(game:HttpGet('https://raw.githubusercontent.com/kynhoong/kyop/main/files/classes/ControlModule'))()
+
+plrLcal = PlayerService.LocalPlayer
+
+
+flyBv = Instance.new('BodyVelocity');
+flyBv.MaxForce = Vector3.new(math.huge, math.huge, math.huge);
+
+fly = RunService.Heartbeat:Connect(function()
+	local rootPart = plrLcal.Character:FindFirstChild("HumanoidRootPart")
+	local camera = workspace.CurrentCamera
+	if (not rootPart or not camera) then return end;
+	
+	flyBv.Parent = rootPart;
+	flyBv.Velocity = camera.CFrame:VectorToWorldSpace(ControlModule:GetMoveVector() * 40);
+
+end);
